@@ -39,34 +39,27 @@ class App extends Component {
 			});
 			return 'Suchtext muss vorhanden sein'
 		}
-		let regExInputs = inputs.map(input => {
-			let message = `Suchtext mit ${input} nicht gefunden`;
+		//itereating over regexes
+		inputs.map(input => {
 			let error = true;
 			let helperText = 'Suchtext nicht gefunden';
 
-			try {
+			try { //trying to make a RegEx out of UserInput
 				let reg = new RegExp(this.state[input]);
 
 				if(reg.test(searchText) && this.state[input].length > 0) {
-					console.log(`Suchtext mit ${input} gefunden`);
-
-					message = `Suchtext mit ${input} gefunden`;
 					helperText = `Suchtext gefunden`;
 					error = false;
 				}
 			}
 			catch(e) {
-				message = `RegEx ${input} ist nicht valide`;
+				helperText = `RegEx ${input} ist nicht valide`;
 			}
 			this.setState({
 				[input + 'Error']: error,
 				[input + 'HelperText']: helperText,
 			});
-			return message;
-		});
-
-		this.setState({
-			regExInputs,
+			return input;
 		});
   };
 
@@ -85,7 +78,6 @@ class App extends Component {
 	//handles Change of every Input Field
 	handleChange(event) {
 		const name = event.target.name;
-		console.log(event.target.value);
 		this.setState({[name]: event.target.value});
 	}
 
@@ -99,7 +91,7 @@ class App extends Component {
 	}
 
 	render() {
-	  const { inputs, regExInputs } = this.state;
+	  const { inputs } = this.state;
 	  const classes = this.props;
     return (
       <div className="App">
@@ -111,9 +103,8 @@ class App extends Component {
 						<div className="Filter">
 							<div className="FilterInputContainer">
 							{inputs.map((input, index) =>
-								<div key={input}>
+								<div key={input} className="FilterInput">
 									<TextField
-										className="FilterInput"
 										error={this.state[input+'Error']}
 										helperText={this.state[input+'HelperText']}
 										name={input}
@@ -131,12 +122,14 @@ class App extends Component {
 								<Add /><Typography>Add RegEx</Typography>
 							</Button>
 						</div>
-						<TextField
-							name="searchText"
-							label="Suchtext"
-							error={this.state.searchTextError}
-							helperText={this.state.searchTextHelperText}
-							onChange={this.handleChange.bind(this)}/>
+						<div>
+							<TextField
+								name="searchText"
+								label="Suchtext"
+								error={this.state.searchTextError}
+								helperText={this.state.searchTextHelperText}
+								onChange={this.handleChange.bind(this)}/>
+						</div>
 					</div>
 					<Button
 						className={classes.regex}
@@ -146,10 +139,6 @@ class App extends Component {
 					>
 						Test RegEx
 					</Button>
-					{regExInputs.map(message =>
-						<Typography key ={message}>{message}</Typography>
-					)}
-
         </Card>
       </div>
     );

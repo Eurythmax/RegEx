@@ -20,6 +20,7 @@
 
 .Container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
@@ -34,6 +35,6 @@
 }
 
 .FilterInput {
-  margin: 50px;
+  margin: 15px;
 }
 

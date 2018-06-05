@@ -38,3 +38,8 @@
   margin: 15px;
 }
 
+.Regex {
+  display: flex;
+  justify-content: flex-end;
+}
+

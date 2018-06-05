@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { Card, TextField, Button, Typography } from 'material-ui';
 import { Add, Delete } from 'material-ui-icons';
-import { withStyles } from 'material-ui/styles';
 
 import './App.css';
 
-const styles = {
-	regex: {
-		marginLeft: 'auto',
-		height: 80,
-	},
-};
 
 class App extends Component {
 	constructor(props) {
@@ -92,7 +85,6 @@ class App extends Component {
 
 	render() {
 	  const { inputs } = this.state;
-	  const classes = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -131,18 +123,18 @@ class App extends Component {
 								onChange={this.handleChange.bind(this)}/>
 						</div>
 					</div>
-					<Button
-						className={classes.regex}
-						onClick={this.handleRegex.bind(this)}
-						variant="raised"
-						color="primary"
-					>
-						Test RegEx
-					</Button>
+					<div className="Regex">
+						<Button
+							onClick={this.handleRegex.bind(this)}
+							variant="raised"
+							color="primary">
+							Test RegEx
+						</Button>
+					</div>
         </Card>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(App);
+export default App;

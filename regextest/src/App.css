@@ -24,19 +24,16 @@
 }
 
 .Filter {
-
+ margin-bottom: 20px;
 }
 
 .FilterInputContainer {
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .FilterInput {
-  margin: 8px;
+  margin: 50px;
 }
 
-.Button {
-  margin-left: auto;
-  margin: 20px;
-}

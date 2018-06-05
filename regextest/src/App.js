@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { Card, TextField, Button, Typography } from 'material-ui';
 import { Add } from 'material-ui-icons';
+import { withStyles } from 'material-ui/styles';
+
 import './App.css';
+
+const styles = {
+	regex: {
+		marginLeft: 'auto',
+		height: 80,
+	},
+};
 
 class App extends Component {
 	constructor(props) {
@@ -12,6 +21,8 @@ class App extends Component {
 			regExInputs: [],
 			Filter1Error: false,
 			Filter1HelperText: '',
+			searchTextError: false,
+			searchTextHelperText: '',
 		};
 	}
 
@@ -20,11 +31,18 @@ class App extends Component {
 		const inputs = this.state.inputs;
 		const searchText = this.state.searchText;
 
+		//check if Search Text is not null
+		if (!searchText) {
+			this.setState({
+				searchTextError: true,
+				searchTextHelperText: 'Muss vorhanden sein',
+			});
+			return 'Suchtext muss vorhanden sein'
+		}
 		let regExInputs = inputs.map(input => {
 			let message = `Suchtext mit ${input} nicht gefunden`;
 			let error = true;
 			let helperText = 'Suchtext nicht gefunden';
-			debugger;
 
 			try {
 				let reg = new RegExp(this.state[input]);
@@ -73,6 +91,7 @@ class App extends Component {
 
 	render() {
 	  const { inputs, regExInputs } = this.state;
+	  const classes = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -100,10 +119,15 @@ class App extends Component {
 								<Add /><Typography>Add RegEx</Typography>
 							</Button>
 						</div>
-						<TextField name="searchText" label="Suchtext" onChange={this.handleChange.bind(this)}/>
+						<TextField
+							name="searchText"
+							label="Suchtext"
+							error={this.state.searchTextError}
+							helperText={this.state.searchTextHelperText}
+							onChange={this.handleChange.bind(this)}/>
 					</div>
 					<Button
-						className="Button"
+						className={classes.regex}
 						onClick={this.handleRegex.bind(this)}
 						variant="raised"
 						color="primary"
@@ -120,4 +144,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

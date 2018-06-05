@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, TextField, Button, Typography } from 'material-ui';
-import { Add } from 'material-ui-icons';
+import { Add, Delete } from 'material-ui-icons';
 import { withStyles } from 'material-ui/styles';
 
 import './App.css';
@@ -89,6 +89,15 @@ class App extends Component {
 		this.setState({[name]: event.target.value});
 	}
 
+	//handles Delete of RegEx Form
+	handleDelete(event) {
+		const name = event.target.name;
+		const { inputs } = this.state;
+		const index = inputs.indexOf(name);
+		inputs.splice(index, 1);
+		this.setState({inputs});
+	}
+
 	render() {
 	  const { inputs, regExInputs } = this.state;
 	  const classes = this.props;
@@ -102,14 +111,17 @@ class App extends Component {
 						<div className="Filter">
 							<div className="FilterInputContainer">
 							{inputs.map((input, index) =>
-								<TextField
-									className="FilterInput"
-									error={this.state[input+'Error']}
-									helperText={this.state[input+'HelperText']}
-									key={input}
-									name={input}
-									label={`Filter${index+1}`}
-									onChange={this.handleChange.bind(this)}/>)}
+								<div key={input}>
+									<TextField
+										className="FilterInput"
+										error={this.state[input+'Error']}
+										helperText={this.state[input+'HelperText']}
+										name={input}
+										label={`Filter${index+1}`}
+										onChange={this.handleChange.bind(this)}/>
+									<Delete onClick={this.handleDelete.bind(this)}/>
+								</div>
+							)}
 							</div>
 							<Button
 								className="Button"
